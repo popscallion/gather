@@ -1,6 +1,6 @@
 {
   "name": "gather-code",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Quick CLI tool to gather code snippets for prompting LLMs",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

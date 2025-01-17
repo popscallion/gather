@@ -4,23 +4,24 @@ import { resolve, relative } from 'path';
 import fastGlob from 'fast-glob';
 
 const HELP_TEXT = `
-Usage: gather [output-path] <input-file-1> [input-file-2] ...
+Usage: gather [--output output-path] <input-file-1> [input-file-2] ...
 
 Examples:
   # Gather components into a new file
-  gather components.ts src/lib/components/*.svelte
+  gather --output components.ts src/lib/components/*.svelte
 
   # Let gather auto-name the output based on content
   gather src/utils/animate.ts src/components/Molecule.svelte
 
   # Gather shaders with explicit output
-  gather shaders.glsl src/shaders/*.{vert,frag}
+  gather --output shaders.glsl src/shaders/*.{vert,frag}
 
   # Gather with auto-generated name (will be placed in generated/ directory)
   gather "src/**/*.ts"
 
 Options:
   --help, -h     Show this help message
+  --output       Specify output file path
 `;
 
 async function expandGlobs(patterns: string[]): Promise<string[]> {
@@ -42,29 +43,28 @@ async function main() {
     process.exit(0);
   }
 
-  // Filter out any args that start with --
-  const fileArgs = args.filter(arg => !arg.startsWith('-'));
+  let outputPath: string | undefined;
+  let inputPatterns: string[] = [];
 
-  if (fileArgs.length === 0) {
+  // Parse arguments
+  for (let i = 0; i < args.length; i++) {
+    if (args[i] === '--output') {
+      if (i + 1 < args.length) {
+        outputPath = args[i + 1];
+        i++; // Skip next arg since it's the output path
+      } else {
+        console.error('Error: --output flag requires a path');
+        process.exit(1);
+      }
+    } else if (!args[i].startsWith('-')) {
+      inputPatterns.push(args[i]);
+    }
+  }
+
+  if (inputPatterns.length === 0) {
     console.error('Error: No input files specified');
     console.log(HELP_TEXT);
     process.exit(1);
-  }
-
-  let outputPath: string | undefined;
-  let inputPatterns: string[];
-
-  // First argument could be output path or first input file
-  if (fileArgs.length === 1) {
-    inputPatterns = [fileArgs[0]];
-  } else {
-    // Check if first arg looks like an output path (contains path separators or dots)
-    if (fileArgs[0].includes('/') || fileArgs[0].includes('\\') || fileArgs[0].includes('.')) {
-      outputPath = fileArgs[0];
-      inputPatterns = fileArgs.slice(1);
-    } else {
-      inputPatterns = fileArgs;
-    }
   }
 
   // Protect against writing to src directory

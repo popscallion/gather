@@ -14,13 +14,13 @@ npm install gather-code
 
 ```bash
 # Gather TypeScript files into a new file
-gather output.ts src/**/*.ts
+gather --output output.ts src/**/*.ts
 
 # Let gather auto-name the output based on content
 gather src/**/*.ts
 
 # Gather mixed file types
-gather combined.ts src/**/*.{ts,js,svelte}
+gather --output combined.ts src/**/*.{ts,js,svelte}
 ```
 
 ### Module
