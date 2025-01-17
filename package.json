@@ -9,8 +9,8 @@
     "gather": "./dist/cli.js"
   },
   "scripts": {
-    "build": "tsc",
-    "watch": "tsc -w",
+    "build": "npx tsc",
+    "watch": "npx tsc -w",
     "prepublishOnly": "npm run build"
   },
   "keywords": [
@@ -39,9 +39,12 @@
   "homepage": "https://github.com/popscallion/gather#readme",
   "devDependencies": {
     "@types/node": "^20.0.0",
-    "typescript": "^5.0.0"
+    "typescript": "^5.3.3"
   },
   "engines": {
     "node": ">=14.16"
+  },
+  "dependencies": {
+    "fast-glob": "^3.3.3"
   }
 }

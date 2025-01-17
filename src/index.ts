@@ -29,8 +29,17 @@ export async function gatherFiles(
     finalOutputPath = `${opts.outputDir}/gathered-${timestamp}${ext}`;
   }
 
+  // Convert to absolute paths
+  const absoluteInputPaths = inputFiles.map(f => resolve(process.cwd(), f));
+  const absoluteOutputPath = resolve(process.cwd(), finalOutputPath);
+
+  // Protect against overwriting source files
+  if (absoluteInputPaths.includes(absoluteOutputPath)) {
+    throw new Error(`Cannot use an input file as the output destination: ${finalOutputPath}`);
+  }
+
   // Ensure output directory exists
-  const outputDir = dirname(finalOutputPath);
+  const outputDir = dirname(absoluteOutputPath);
   if (opts.createOutputDir && !existsSync(outputDir)) {
     mkdirSync(outputDir, { recursive: true });
   }
@@ -52,10 +61,9 @@ export async function gatherFiles(
   }
 
   // Write output
-  const outputAbsolutePath = resolve(process.cwd(), finalOutputPath);
-  writeFileSync(outputAbsolutePath, gatheredContent);
+  writeFileSync(absoluteOutputPath, gatheredContent);
 
-  return outputAbsolutePath;
+  return absoluteOutputPath;
 }
 
 export { GatherOptions, FileExtensionPriority } from './types.js';
