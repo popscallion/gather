@@ -1,7 +1,7 @@
 {
-  "name": "@popscallion/gather",
+  "name": "gather-code",
   "version": "0.1.0",
-  "description": "Elegantly gather code snippets for LLM context",
+  "description": "Quick CLI tool to gather code snippets for prompting LLMs",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "type": "module",
@@ -31,12 +31,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/popscallion/gather.git"
+    "url": "git+https://github.com/popscallion/gather-code.git"
   },
   "bugs": {
-    "url": "https://github.com/popscallion/gather/issues"
+    "url": "https://github.com/popscallion/gather-code/issues"
   },
-  "homepage": "https://github.com/popscallion/gather#readme",
+  "homepage": "https://github.com/popscallion/gather-code#readme",
   "devDependencies": {
     "@types/node": "^20.0.0",
     "typescript": "^5.3.3"
