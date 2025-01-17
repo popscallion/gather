@@ -1,0 +1,47 @@
+{
+  "name": "@popscallion/gather",
+  "version": "0.1.0",
+  "description": "Elegantly gather code snippets for LLM context",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "bin": {
+    "gather": "./dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "llm",
+    "ai",
+    "context",
+    "gather",
+    "collect",
+    "combine",
+    "prompt"
+  ],
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "author": "L Fahn-Lai",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/popscallion/gather.git"
+  },
+  "bugs": {
+    "url": "https://github.com/popscallion/gather/issues"
+  },
+  "homepage": "https://github.com/popscallion/gather#readme",
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=14.16"
+  }
+}
