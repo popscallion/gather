@@ -4,7 +4,7 @@ import { resolve, relative } from 'path';
 import fastGlob from 'fast-glob';
 
 const HELP_TEXT = `
-Usage: gather [--output output-path] <input-file-1> [input-file-2] ...
+Usage: gather [--output output-path] [--everything] <input-file-1> [input-file-2] ...
 
 Examples:
   # Gather components into a new file
@@ -19,9 +19,13 @@ Examples:
   # Gather with auto-generated name (will be placed in generated/ directory)
   gather "src/**/*.ts"
 
+  # Gather all non-hidden files in the project
+  gather --everything
+
 Options:
   --help, -h     Show this help message
   --output       Specify output file path
+  --everything   Gather all non-hidden files in the project
 `;
 
 async function expandGlobs(patterns: string[]): Promise<string[]> {
@@ -45,6 +49,7 @@ async function main() {
 
   let outputPath: string | undefined;
   let inputPatterns: string[] = [];
+  let everything = false;
 
   // Parse arguments
   for (let i = 0; i < args.length; i++) {
@@ -56,12 +61,19 @@ async function main() {
         console.error('Error: --output flag requires a path');
         process.exit(1);
       }
+    } else if (args[i] === '--everything') {
+      everything = true;
     } else if (!args[i].startsWith('-')) {
       inputPatterns.push(args[i]);
     }
   }
 
-  if (inputPatterns.length === 0) {
+  // If --everything flag is used, gather all non-hidden files
+  if (everything) {
+    inputPatterns = ['**/*'];
+  }
+
+  if (inputPatterns.length === 0 && !everything) {
     console.error('Error: No input files specified');
     console.log(HELP_TEXT);
     process.exit(1);
